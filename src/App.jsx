@@ -86,8 +86,12 @@ function App() {
         return shuffled;
       };
 
-      // Mix both before and after questions together
-      const mixed = shuffleArray([...beforeParsed, ...afterParsed]);
+      // Take 8 random questions from before and 12 from after
+      const selectedBefore = shuffleArray(beforeParsed).slice(0, 8);
+      const selectedAfter = shuffleArray(afterParsed).slice(0, 12);
+      
+      // Mix both together and shuffle again
+      const mixed = shuffleArray([...selectedBefore, ...selectedAfter]);
       setAllQuestions(mixed);
     } catch (error) {
       console.error("Error loading Excel files:", error);
