@@ -6,45 +6,69 @@ function doPost(e) {
     // Parse the incoming data
     const data = JSON.parse(e.postData.contents);
     const email = data.email;
+    const formType = data.formType;
     const responses = data.responses;
-    
-    // Get the active spreadsheet
-    const sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
-    
+
+    // Get the appropriate sheet based on formType
+    const spreadsheet = SpreadsheetApp.getActiveSpreadsheet();
+    const sheetName =
+      formType === "entire"
+        ? "Entire Workflow Compare & Preferences Sheet"
+        : "Final Response Compare & Preferences Sheet";
+    let sheet = spreadsheet.getSheetByName(sheetName);
+
+    if (!sheet) {
+      sheet = spreadsheet.insertSheet(sheetName);
+    }
+
     // If sheet is empty, add headers
     if (sheet.getLastRow() === 0) {
-      sheet.appendRow(['Timestamp', 'Email', 'Question', 'Preferred Response', 'Model Used', 'Sheet']);
+      sheet.appendRow([
+        "Timestamp",
+        "Email",
+        "Question",
+        "Preferred Response",
+        "Model Used",
+        "workflow_state",
+      ]);
     }
-    
-    // Insert each response as a new row
+
     const timestamp = new Date();
-    responses.forEach(response => {
+    responses.forEach((response) => {
+      let workflow_state;
+      if (response.sheet == "after") {
+        workflow_state = "after_data";
+      } else if (response.sheet == "before") {
+        workflow_state = "before_data";
+      } else {
+        workflow_state = "null";
+      }
+
       sheet.appendRow([
         timestamp,
         email,
         response.question,
         response.preferredResponse,
         response.preferredModel,
-        response.sheet
+        workflow_state,
       ]);
     });
-    
+
     // Return success response
-    return ContentService
-      .createTextOutput(JSON.stringify({ success: true, message: 'Data saved successfully' }))
-      .setMimeType(ContentService.MimeType.JSON);
-      
+    return ContentService.createTextOutput(
+      JSON.stringify({ success: true, message: "Data saved successfully" })
+    ).setMimeType(ContentService.MimeType.JSON);
   } catch (error) {
     // Return error response
-    return ContentService
-      .createTextOutput(JSON.stringify({ success: false, error: error.toString() }))
-      .setMimeType(ContentService.MimeType.JSON);
+    return ContentService.createTextOutput(
+      JSON.stringify({ success: false, error: error.toString() })
+    ).setMimeType(ContentService.MimeType.JSON);
   }
 }
 
 // Handle OPTIONS request for CORS
 function doOptions(e) {
-  return ContentService
-    .createTextOutput('')
-    .setMimeType(ContentService.MimeType.JSON);
+  return ContentService.createTextOutput("").setMimeType(
+    ContentService.MimeType.JSON
+  );
 }
