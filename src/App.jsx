@@ -5,7 +5,7 @@ function App() {
   const [step, setStep] = useState("welcome"); // welcome, email, formSelection, survey
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  const [selectedForm, setSelectedForm] = useState("");
+  const [selectedForm, setSelectedForm] = useState("entire");
 
   const validateEmail = (email) => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -23,7 +23,7 @@ function App() {
       return;
     }
     setEmailError("");
-    setStep("formSelection");
+    setStep("survey");
   };
 
   const handleFormSelection = (formType) => {
@@ -84,32 +84,32 @@ function App() {
   }
 
   // Form Selection Screen
-  if (step === "formSelection") {
-    return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
-        <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
-          <h2 className="text-2xl font-bold text-gray-800 mb-4">Select Form</h2>
-          <p className="text-gray-600 mb-8">
-            Please select which form you would like to fill.
-          </p>
-          <div className="flex flex-col gap-4">
-            <button
-              onClick={() => handleFormSelection("entire")}
-              className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
-            >
-              Entire Workflow Response Form
-            </button>
-            <button
-              onClick={() => handleFormSelection("final")}
-              className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
-            >
-              Final Response Form
-            </button>
-          </div>
-        </div>
-      </div>
-    );
-  }
+  // if (step === "formSelection") {
+  //   return (
+  //     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 flex items-center justify-center p-4">
+  //       <div className="bg-white rounded-lg shadow-xl p-8 max-w-md w-full text-center">
+  //         <h2 className="text-2xl font-bold text-gray-800 mb-4">Select Form</h2>
+  //         <p className="text-gray-600 mb-8">
+  //           Please select which form you would like to fill.
+  //         </p>
+  //         <div className="flex flex-col gap-4">
+  //           <button
+  //             onClick={() => handleFormSelection("entire")}
+  //             className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
+  //           >
+  //             Entire Workflow Response Form
+  //           </button>
+  //           <button
+  //             onClick={() => handleFormSelection("final")}
+  //             className="bg-indigo-600 text-white px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition"
+  //           >
+  //             Final Response Form
+  //           </button>
+  //         </div>
+  //       </div>
+  //     </div>
+  //   );
+  // }
 
   // Survey Screen
   if (step === "survey") {

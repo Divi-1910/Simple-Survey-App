@@ -149,7 +149,6 @@ function Preference_Form({ email, formType }) {
     setIsNextLoading(true);
     const currentQuestion = allQuestions[currentQuestionIndex];
     const currentResponse = responses[currentQuestion.id];
-    console.log("Current Response:", currentResponse);
 
     // Submit current response to Google Sheets
     try {
