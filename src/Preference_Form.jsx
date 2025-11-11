@@ -2,8 +2,8 @@ import { useState, useEffect } from "react";
 import * as XLSX from "xlsx";
 import ReactMarkdown from "react-markdown";
 import remarkGfm from "remark-gfm";
-import completeBeforeFile from "./assets/Complete_Before_Connect_Feedback_Questions.xlsx?url";
-import completeAfterFile from "./assets/Complete_After_Data_Feedback_Questions.xlsx?url";
+import completeBeforeFile from "./assets/Complete_Before_Connect_Feedback_Questions_file.xlsx?url";
+import completeAfterFile from "./assets/correct_after_data_complete_question_file.xlsx?url";
 import beforeFile from "./assets/Before_Connect_Feedback_Questions_And_Responses.xlsx?url";
 import afterFile from "./assets/After_data_Feedback_Questions_And_Responses.xlsx?url";
 
@@ -12,7 +12,7 @@ function Preference_Form({ email, formType }) {
   const [currentQuestionIndex, setCurrentQuestionIndex] = useState(0);
   const [responses, setResponses] = useState({});
   const [isNextLoading, setIsNextLoading] = useState(false);
-  const [step, setStep] = useState("survey"); // survey, thankyou
+  const [step, setStep] = useState("survey");
 
   useEffect(() => {
     loadExcelData();
